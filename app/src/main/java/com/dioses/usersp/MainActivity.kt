@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         val isFirstTime = preferences.getBoolean(getString(R.string.sp_first_time), true)
 
+        preferences.edit().putBoolean(getString(R.string.sp_first_time), false).commit()
+
         userAdapter = UserAdapter(getUsers(), this)
         linearLayoutManager = LinearLayoutManager(this)
 
