@@ -16,16 +16,17 @@ class UserAdapter(private val users: List<User>, private val listener: OnClickLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        val view = LayoutInflater.from(context).inflate(R.layout.item_user_alt, parent, false);
+        val view = LayoutInflater.from(context).inflate(R.layout.item_user_alt, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = users.get(position)
+        val user = users[position]
+        val humanPosition = position + 1
 
         with(holder) {
-            setListener(user, position + 1)
-            binding.tvOrder.text = (position + 1).toString()
+            setListener(user, humanPosition)
+            binding.tvOrder.text = (humanPosition).toString()
             binding.tvName.text = user.getFullName()
             Glide.with(context)
                 .load(user.url)

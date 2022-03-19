@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                     getString(R.string.sp_username),
                     getString(R.string.hint_username)
                 )
-            Toast.makeText(this, "Bienvenido ${username}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Bienvenido $username", Toast.LENGTH_SHORT).show()
 
         }
 
