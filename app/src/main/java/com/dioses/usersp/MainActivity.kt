@@ -1,7 +1,6 @@
 package com.dioses.usersp
 
 import android.content.Context
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -33,17 +32,24 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                 .setView(dialogView)
                 .setCancelable(false)
                 .setPositiveButton(
-                    R.string.dialog_confirm,
-                    { dialogInterface, i ->
-                        val username =
-                            dialogView.findViewById<TextInputEditText>(R.id.etUsername).text.toString()
-                        with(preferences.edit()) {
-                            putBoolean(getString(R.string.sp_first_time), false)
-                            putString(getString(R.string.sp_username), username)
-                                .apply()
-                        }
-                        Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show()
-                    })
+                    R.string.dialog_confirm
+                ) { _, _ ->
+                    val username = dialogView.findViewById<TextInputEditText>(R.id.etUsername)
+                        .text.toString()
+                    with(preferences.edit()) {
+                        putBoolean(getString(R.string.sp_first_time), false)
+                        putString(getString(R.string.sp_username), username)
+                            .apply()
+                    }
+                    Toast.makeText(this, R.string.register_success, Toast.LENGTH_SHORT).show()
+                }
+                .setNeutralButton(getString(R.string.dialog_guest)) { dialogInterface, _ ->
+                    with(preferences.edit()) {
+                        putBoolean(getString(R.string.sp_first_time), true).apply()
+                    }
+                    dialogInterface.dismiss()
+                    Toast.makeText(this, R.string.welcome_guest, Toast.LENGTH_SHORT).show()
+                }
                 .show()
         } else {
             val username =
