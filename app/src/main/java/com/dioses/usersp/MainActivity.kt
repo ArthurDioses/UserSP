@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dioses.usersp.databinding.ActivityMainBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 
 class MainActivity : AppCompatActivity(), OnClickListener {
     private lateinit var userAdapter: UserAdapter
@@ -26,15 +27,22 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         val isFirstTime = preferences.getBoolean(getString(R.string.sp_first_time), true)
 
         if (isFirstTime) {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_register, null)
             MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.dialog_title)
+                .setView(dialogView)
+                .setCancelable(false)
                 .setPositiveButton(
                     R.string.dialog_confirm,
                     { dialogInterface, i ->
-                        preferences.edit().putBoolean(getString(R.string.sp_first_time), false)
-                            .commit()
+                        val username =
+                            dialogView.findViewById<TextInputEditText>(R.id.etUsername).text.toString()
+                        with(preferences.edit()) {
+                            putBoolean(getString(R.string.sp_first_time), false)
+                            putString(getString(R.string.sp_username), username)
+                                .apply()
+                        }
                     })
-                .setNegativeButton("Cancelar", null)
                 .show()
         }
 
